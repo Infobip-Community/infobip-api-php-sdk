@@ -21,6 +21,9 @@ final class Message implements ModelInterface, ModelValidationInterface
     /** @var DestinationCollection */
     private $destinations;
 
+    /** @var string|null */
+    private $text;
+
     /** @var Binary|null */
     private $binary;
 
@@ -63,6 +66,13 @@ final class Message implements ModelInterface, ModelValidationInterface
     public function __construct()
     {
         $this->destinations = new DestinationCollection();
+    }
+
+    public function setText(?string $text): self
+    {
+        $this->text = $text;
+
+        return $this;
     }
 
     public function setBinary(?Binary $binary): self
@@ -173,6 +183,7 @@ final class Message implements ModelInterface, ModelValidationInterface
     public function toArray(): array
     {
         return array_filter_recursive([
+            'text' => $this->text,
             'binary' => $this->binary,
             'callbackData' => $this->callbackData,
             'deliveryTimeWindow' => $this->deliveryTimeWindow,
